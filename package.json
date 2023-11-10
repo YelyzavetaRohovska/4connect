@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@mdx-js/react": "1.6.2",
+    "@parcel/transformer-mdx": "2.10.2",
     "@types/react": "18.2.37",
     "@types/react-dom": "18.2.15",
     "autoprefixer": "10.4.16",
