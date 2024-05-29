@@ -21,7 +21,7 @@ class Api {
    * List of RoomTreeNode elements that can be used to build a tree
    */
   getRooms(): Promise<RoomTreeNode[]> {
-    return Promise.resolve(this.tree).delay(API_DELAY_MS)
+    return new Promise<RoomTreeNode[]>((resolve) => setTimeout(resolve, API_DELAY_MS, tree));
   }
 
   /**
@@ -29,7 +29,7 @@ class Api {
    * @param id
    */
   getRoom(id: number): Promise<Room> {
-    return Promise.resolve(this.rooms[id]).delay(API_DELAY_MS)
+    return new Promise<Room>((resolve) => setTimeout(resolve, API_DELAY_MS, this.rooms[id]));
   }
 
   /**
