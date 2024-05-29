@@ -1,9 +1,9 @@
-export type AssetTreeNode = {
+export type RoomTreeNode = {
   id: number
   parentId: number
   name: string
 }
-export type Asset = {
+export type Room = {
   name: string
   client_id: number
   floor?: string
@@ -11,4 +11,4 @@ export type Asset = {
   room_no?: string
   source?: string
 }
-export type Assets = Record<number, Asset>
+export type Rooms = Record<number, Room>
