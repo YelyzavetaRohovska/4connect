@@ -1,4 +1,6 @@
-export const tree = [
+import { AssetTreeNode } from "./types"
+
+export const tree: AssetTreeNode[] = [
   {
     id: 12205988895684,
     parentId: 4016697928598482,

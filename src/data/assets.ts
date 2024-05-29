@@ -1,4 +1,6 @@
-export const assets = {
+import { Assets } from "./types"
+
+export const assets: Assets = {
   12205988895684: { name: "4207 Møterom", floor: "004", room_id: "017", specie: "Moterom" },
   20434779268697: {
     name: "RT001-mean Temp, mean (Aggr.)",
