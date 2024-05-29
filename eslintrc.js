@@ -1,7 +1,7 @@
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
   extends: ["eslint:recommended", "plugin:react/recommended", "plugin:prettier/recommended"],
-  plugins: [],
+  plugins: ["react", "prettier"],
   rules: {
     "react/react-in-jsx-scope": "off",
 
@@ -15,6 +15,11 @@ module.exports = {
       },
     ],
   },
+  overrides: [
+    {
+      files: ["src/**/*.[t|j}sx?"],
+    },
+  ],
   ignorePatterns: ["node_modules/*", ".github/*", ".git/*"],
   settings: {
     "import/parsers": {
@@ -26,9 +31,15 @@ module.exports = {
       },
     },
   },
+  env: {
+    node: true,
+    browser: true,
+  },
   parserOptions: {
     ecmaFeatures: {
-      jsx: true
-    }
-  }
-};
+      jsx: true,
+    },
+    sourceType: "module",
+    ecmaVersion: "latest",
+  },
+}
