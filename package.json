@@ -10,25 +10,24 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@mdx-js/react": "1.6.2",
-    "@parcel/transformer-mdx": "2.10.2",
-    "@types/react": "18.2.37",
-    "@types/react-dom": "18.2.15",
-    "autoprefixer": "10.4.16",
-    "eslint": "8.53.0",
-    "eslint-config-prettier": "9.0.0",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "autoprefixer": "10.4.19",
+    "eslint": "8.57.0",
+    "eslint-config-prettier": "8.10.0",
     "eslint-import-resolver-typescript": "3.6.1",
-    "eslint-plugin-prettier": "5.0.1",
-    "eslint-plugin-react": "7.33.2",
-    "parcel": "2.10.2",
-    "postcss": "8.4.31",
-    "prettier": "3.0.3",
-    "prettier-plugin-tailwindcss": "0.5.7",
+    "eslint-plugin-prettier": "5.1.3",
+    "eslint-plugin-react": "7.34.2",
+    "parcel": "2.12.0",
+    "postcss": "8.4.38",
+    "prettier": "3.2.5",
+    "prettier-plugin-tailwindcss": "0.5.14",
     "process": "0.11.10",
-    "tailwindcss": "3.3.5"
+    "tailwindcss": "3.4.3",
+    "typescript": "5.4.5"
   },
   "dependencies": {
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   }
 }
