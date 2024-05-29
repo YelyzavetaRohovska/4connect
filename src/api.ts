@@ -11,6 +11,7 @@ class Api {
 
   constructor() {
     if (_instance === null) {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
       _instance = this
     }
     return _instance

@@ -1,6 +1,6 @@
 export type RoomTreeNode = {
   id: number
-  parentId: number
+  parentId?: number
   name: string
 }
 export type Room = {
