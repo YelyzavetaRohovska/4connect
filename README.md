@@ -21,4 +21,4 @@ npm run start
 ```
 
 #### Write some code:
-This skeleton uses [Parcel](https://parceljs.org/) as a build-tool and dev-server. For any Parcel-project, the root file is [`src/index.html`](/src/index.html), which in this case also loads `src/app.tsx` and `src/index.css`
+This skeleton uses [Parcel](https://parceljs.org/) as a build-tool and dev-server. For any Parcel-project, the root file is [`src/index.html`](/src/index.html), which in this case also loads [`src/app.tsx`](/src/app.tsx) and [`src/index.css`](/src/index.css)
