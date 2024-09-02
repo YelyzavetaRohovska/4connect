@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["es2023"]
+    "jsx": "react",
+    "lib": ["es2023", "es6", "dom"],
   }
 }
