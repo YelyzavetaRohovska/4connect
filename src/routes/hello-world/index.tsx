@@ -1,18 +1,68 @@
-import { useState } from "react";
-import React = require("react");
+import { useState, useEffect, useCallback } from "react"
 
-type User = "A" | "B" | "T";
+type UserId = "A" | "B";
+type Winner = UserId | "T" | null;
+
+interface User {
+  id: UserId
+  // timeSpent: number;
+  startTime: number;
+}
 
 const rows = 6;
 const cols = 7;
 const winCombinationLength = 4;
 
 export default function Connect4Game() {
-  const [currentUser, setCurrentUser] = useState<User>("A");
-  const [winner, setWinner] = useState<User | null>(null);
+  const [mappedUsers, setMappedUsers] = useState({
+    A: {
+      timeSpent: 0,
+    },
+    B: {
+      timeSpent: 0,
+    }
+  });
+
+  const updateUserTotalTimeSpent = () => {
+    const timeSpentForCurrentMove = new Date().getTime() - currentUser.startTime;
+
+    setMappedUsers(prevState => ({
+        ...prevState,
+        [currentUser.id]: {
+          ...prevState[currentUser.id],
+          timeSpent: prevState[currentUser.id].timeSpent + timeSpentForCurrentMove
+        }
+    }));
+  };
+
+  const [currentUser, setCurrentUser] = useState<User>({
+    id: "A",
+    startTime: new Date().getTime(),
+  });
+  const [winner, setWinner] = useState<Winner>(null)
 
   const [userAMoves, setUserAMoves] = useState<Set<number>>(new Set());
   const [userBMoves, setUserBMoves] = useState<Set<number>>(new Set());
+
+  const incrementCurrentTime = useCallback(() => {
+    console.log(currentUser.id)
+    if (currentUser.id === null) return;
+
+    // console.log(currentUser.id)
+    setMappedUsers((prevState) => ({
+      ...prevState,
+      [currentUser.id]: {
+        ...prevState[currentUser.id],
+        timeSpent: prevState[currentUser.id].timeSpent + 1000,
+      },
+    }))
+  }, [currentUser.id]);
+
+  useEffect(() => {
+    const interval = setInterval(incrementCurrentTime, 1000, currentUser)
+
+    // return clearInterval(interval);
+  }, [])
 
   const addUserMark = (index: number): void => {
     if (winner || userAMoves.has(index) || userBMoves.has(index)) return;
@@ -20,7 +70,9 @@ export default function Connect4Game() {
     let dropIndex = findDropIndex(index);
 
     if (dropIndex !== -1) {
-      if (currentUser === "A") {
+      // updateUserTotalTimeSpent();
+
+      if (currentUser.id === "A") {
         updateMovesAndCheckWinner(dropIndex, userAMoves, setUserAMoves);
       } else {
         updateMovesAndCheckWinner(dropIndex, userBMoves, setUserBMoves);
@@ -52,7 +104,7 @@ export default function Connect4Game() {
     setMoves(newMoves);
 
     if (checkWinner(index, newMoves)) {
-      setWinner(currentUser);
+      setWinner(currentUser.id);
       return;
     }
 
@@ -61,7 +113,10 @@ export default function Connect4Game() {
       return;
     }
 
-    setCurrentUser(prevUser => (prevUser === "A" ? "B" : "A"));
+    setCurrentUser((prevUser) => ({
+      ...prevUser,
+      id: prevUser.id === "A" ? "B" : "A",
+    }))
   };
 
   const getColor = (index: number): string => {
@@ -127,38 +182,63 @@ export default function Connect4Game() {
     return count;
   };
 
+  const surrender = () => {
+    setWinner(currentUser.id == "A" ? "B" : "A")
+  }
+
+  const mlToSeconds = (ml) => {
+    return Math.round(ml / 1000);
+  }
+
   return (
-    <div className="flex justify-center items-center flex-col w-full p-24">
-      <div className="w-fit grid grid-cols-7 gap-0 bg-slate-800">
-        {[...Array(rows * cols)].map((_, i) => {
-          const index = rows * cols - i;
-          return (
-            <div
-              key={index}
-              id={index.toString()}
-              className={`border border-black w-16 h-16 m-2 flex items-center justify-center rounded-full shadow-inner ${getColor(
-                index
-              )}`}
-              onClick={() => addUserMark(index)}
-            >
-              {index}
-            </div>
-          );
-        })}
+    <div className="flex flex-col justify-center items-center p-4">
+      <div className="flex">
+        <div id="user-info-A" className="flex flex-col border rounded bg-slate-500 text-white">
+          <h3>Player A</h3>
+          <p>Total time spent: {mlToSeconds(mappedUsers.A.timeSpent)} seconds</p>
+          {currentUser.id == "A" ? <p>Your turn!</p> : <p>Opponent Turn</p>}
+        </div>
+        <div className="flex justify-center items-center flex-col w-full p-24">
+          <div className="w-fit grid grid-cols-7 gap-0 bg-slate-800">
+            {[...Array(rows * cols)].map((_, i) => {
+              const index = rows * cols - i
+              return (
+                <div
+                  key={index}
+                  id={index.toString()}
+                  className={`border border-black w-16 h-16 m-2 flex items-center justify-center rounded-full shadow-inner ${getColor(
+                    index,
+                  )}`}
+                  onClick={() => addUserMark(index)}
+                >
+                  {index}
+                </div>
+              )
+            })}
+          </div>
+          {winner ? (
+            <p>
+              {winner === "T" ? "It's a tie!" : `Winner is User ${winner}`}
+              <button className="bg-stone-600 p-1" onClick={() => window.location.reload()}>
+                Restart
+              </button>
+            </p>
+          ) : (
+            <p className="p-4 border m-4">User {currentUser.id}'s turn</p>
+          )}
+        </div>
+        <div id="user-info-B" className="userInfo"></div>
       </div>
-      {winner ? (
-        <p>
-          {winner === "T" ? "It's a tie!" : `Winner is User ${winner}`}
-          <button
-            className="bg-stone-600 p-1"
-            onClick={() => window.location.reload()}
-          >
-            Restart
-          </button>
-        </p>
-      ) : (
-        <p className="p-4 border m-4">User {currentUser}'s turn</p>
-      )}
+      <button
+        className="flex p-2 rounded bg-slate-600 text-slate-200 border-slate-700 border 
+          hover:bg-slate-700 hover:border-slate-800
+            active:bg-slate-800 active:border-slate-900
+        "
+        disabled={winner !== null}
+        onClick={surrender}
+      >
+        Surrender
+      </button>
     </div>
-  );
+  )
 }
